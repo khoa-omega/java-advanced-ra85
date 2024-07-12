@@ -1,9 +1,9 @@
 package entity;
 
+import converter.DepartmentTypeConverter;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,7 +33,7 @@ public class Department {
     private String name;
 
     @Column(name = "type", nullable = false)
-    @Enumerated(value = EnumType.STRING)
+    @Convert(converter = DepartmentTypeConverter.class)
     private Type type;
 
     @Column(name = "created_at", nullable = false, updatable = false)
