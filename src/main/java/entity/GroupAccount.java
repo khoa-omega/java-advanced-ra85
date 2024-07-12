@@ -2,8 +2,9 @@ package entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,9 +17,13 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @Table(name = "group_account")
+@IdClass(value = GroupAccount.PrimaryKey.class)
 public class GroupAccount {
-    @EmbeddedId
-    private PrimaryKey pk;
+    @Id
+    private int groupId;
+
+    @Id
+    private int accountId;
 
     @Column(name = "joined_date", nullable = false, updatable = false)
     @CreationTimestamp
