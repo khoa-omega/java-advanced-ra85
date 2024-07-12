@@ -5,7 +5,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PrePersist;
@@ -14,13 +13,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.JdbcType;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.type.descriptor.jdbc.CharJdbcType;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -30,9 +26,12 @@ import java.util.UUID;
 public class Department {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @JdbcType(CharJdbcType.class)
-    private UUID id;
+    @GenericGenerator(
+            name = "department_id_generator",
+            strategy = "generator.DepartmentIdGenerator"
+    )
+    @GeneratedValue(generator = "department_id_generator")
+    private String id;
 
     @Column(name = "name", length = 50, unique = true, nullable = false)
     private String name;
