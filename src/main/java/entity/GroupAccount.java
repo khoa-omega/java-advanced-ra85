@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-@Table(name = "group_account")
+@Table(name = "ga")
 @IdClass(value = GroupAccount.PrimaryKey.class)
 public class GroupAccount {
     @Id

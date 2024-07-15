@@ -5,11 +5,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -27,11 +28,6 @@ public class Account {
     @Column(name = "email", length = 50, unique = true, nullable = false)
     private String email;
 
-    @ManyToOne
-    @JoinColumn(
-            name = "group_id",
-            referencedColumnName = "id",
-            nullable = false
-    )
-    private Group group;
+    @ManyToMany(mappedBy = "accounts")
+    private List<Group> groups;
 }
