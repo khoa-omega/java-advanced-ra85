@@ -6,7 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,11 +27,10 @@ public class Account {
     @Column(name = "email", length = 50, unique = true, nullable = false)
     private String email;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(
             name = "group_id",
             referencedColumnName = "id",
-            unique = true,
             nullable = false
     )
     private Group group;

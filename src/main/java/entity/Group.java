@@ -5,10 +5,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,6 +25,6 @@ public class Group {
     @Column(name = "name", length = 50, unique = true, nullable = false)
     private String name;
 
-    @OneToOne(mappedBy = "group")
-    private Account account;
+    @OneToMany(mappedBy = "group")
+    private List<Account> accounts;
 }

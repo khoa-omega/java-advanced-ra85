@@ -10,22 +10,17 @@ public class Program {
                 group.setName("Hibernate");
                 session.persist(group);
 
-                var account = new Account();
-                account.setName("Long");
-                account.setEmail("long@gmail.com");
-                account.setGroup(group);
-                session.persist(account);
-            });
+                var account1 = new Account();
+                account1.setName("Long");
+                account1.setEmail("long@gmail.com");
+                account1.setGroup(group);
+                session.persist(account1);
 
-            factory.inSession(session -> {
-                var hql = "FROM Account";
-                var accounts = session
-                        .createSelectionQuery(hql, Account.class)
-                        .getResultList();
-                for (var account : accounts) {
-                    System.out.println("👉 account = " + account.getName());
-                    System.out.println("✨ group = " + account.getGroup().getName());
-                }
+                var account2 = new Account();
+                account2.setName("Thảo");
+                account2.setEmail("thao@gmail.com");
+                account2.setGroup(group);
+                session.persist(account2);
             });
 
             factory.inSession(session -> {
@@ -35,7 +30,10 @@ public class Program {
                         .getResultList();
                 for (var group : groups) {
                     System.out.println("👉 group = " + group.getName());
-                    System.out.println("✨ account = " + group.getAccount().getName());
+                    var accounts = group.getAccounts();
+                    for (var account : accounts) {
+                        System.out.println("✨ account = " + account.getName());
+                    }
                 }
             });
         }
