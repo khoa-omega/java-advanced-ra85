@@ -1,30 +1,41 @@
-import entity.Department;
-import entity.GroupAccount;
+import entity.Account;
+import entity.Group;
 import util.HibernateUtil;
 
 public class Program {
     public static void main(String[] args) {
         try (var factory = HibernateUtil.buildSessionFactory()) {
             factory.inTransaction(session -> {
-                var groupAccount = new GroupAccount();
-                groupAccount.setGroupId(1);
-                groupAccount.setAccountId(4);
-                session.persist(groupAccount);
-            });
-            factory.inTransaction(session -> {
-                var groupAccount = new GroupAccount();
-                groupAccount.setGroupId(7);
-                groupAccount.setAccountId(9);
-                session.persist(groupAccount);
+                var group = new Group();
+                group.setName("Hibernate");
+                session.persist(group);
+
+                var account = new Account();
+                account.setName("Long");
+                account.setEmail("long@gmail.com");
+                account.setGroup(group);
+                session.persist(account);
             });
 
             factory.inSession(session -> {
-                var hql = "FROM GroupAccount";
-                var groupAccounts = session
-                        .createSelectionQuery(hql, GroupAccount.class)
+                var hql = "FROM Account";
+                var accounts = session
+                        .createSelectionQuery(hql, Account.class)
                         .getResultList();
-                for (var groupAccount : groupAccounts) {
-                    System.out.println("👉 Group Account = " + groupAccount);
+                for (var account : accounts) {
+                    System.out.println("👉 account = " + account.getName());
+                    System.out.println("✨ group = " + account.getGroup().getName());
+                }
+            });
+
+            factory.inSession(session -> {
+                var hql = "FROM Group";
+                var groups = session
+                        .createSelectionQuery(hql, Group.class)
+                        .getResultList();
+                for (var group : groups) {
+                    System.out.println("👉 group = " + group.getName());
+                    System.out.println("✨ account = " + group.getAccount().getName());
                 }
             });
         }
