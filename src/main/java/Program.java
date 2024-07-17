@@ -1,6 +1,5 @@
 import entity.Circle;
 import entity.Rectangle;
-import entity.Shape;
 import util.HibernateUtil;
 
 public class Program {
