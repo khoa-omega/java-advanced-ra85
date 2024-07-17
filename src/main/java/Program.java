@@ -1,4 +1,8 @@
 import entity.Department;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Root;
 import util.HibernateUtil;
 
 public class Program {
@@ -22,6 +26,21 @@ public class Program {
                 for (var department : departments) {
                     System.out.println("2️⃣ department id = " + department.getId());
                     System.out.println("2️⃣ department name = " + department.getName());
+                }
+            });
+
+            factory.inSession(session -> {
+                CriteriaBuilder builder = session.getCriteriaBuilder();
+                CriteriaQuery<Department> query = builder.createQuery(Department.class);
+                Root<Department> root = query.from(Department.class);
+                Expression<Boolean> expression = builder.equal(root.get("name"), "Kỹ thuật");
+                query.select(root).where(expression);
+                var departments = session
+                        .createSelectionQuery(query)
+                        .getResultList();
+                for (var department : departments) {
+                    System.out.println("3️⃣ department id = " + department.getId());
+                    System.out.println("3️⃣ department name = " + department.getName());
                 }
             });
         }
